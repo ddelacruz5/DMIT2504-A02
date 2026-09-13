@@ -10,12 +10,18 @@
 //  - specific fuction to take a word and return its definition
 //  - we will be doing option 1
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 Future<dynamic> getJSON(String url) async {
   // We want all our HTTP interaction to be async, so we return a Future<someType>,
   // and valid JSON can start with a variety of data types, so we use the "dynamic" type
   // to tell the compiler it could be anything.
 
   // 1. parse URL string as Uri
+  final url = Uri.parse(url);
+  final response = await http.get(url);
+  return jsonDecode(response.body);
   // 2. make HTTP request & get response
   // 3. return JSON
 }
