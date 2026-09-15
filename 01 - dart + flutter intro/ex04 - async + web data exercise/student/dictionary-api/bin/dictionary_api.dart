@@ -34,7 +34,7 @@ Future<void> main() async {
     String? input = stdin.readLineSync();
 
     if (input == 'quit') {
-      print('You typed $input. Goodbye.');
+      print('Goodbye.');
       break;
     }
 
@@ -44,12 +44,16 @@ Future<void> main() async {
     var response = await http.get(myUri);
 
     if (response.statusCode == 200) {
-      print('Success! Got data.');
-      print(response.body);
+      var data = jsonDecode(response.body);
+      var firstEntry = data[0];
+      var meanings = firstEntry['meanings'];
+      var firstMeaning = meanings[0];
+      var definitions = firstMeaning['definitions']; // list of definition objects
+      var firstDefinitionObject = definitions[0]; // the first one (still a map)
+      var definitionText = firstDefinitionObject['definition']; // now it's the plain text
+      print('$definitionText');
     } else {
       print('Something went wrong. Status: ${response.statusCode}');
     }
-
-    print('You typed: $input');
   }
 }
