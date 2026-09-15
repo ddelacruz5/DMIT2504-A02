@@ -25,17 +25,31 @@
 // END program
 
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-void main() {
+Future<void> main() async {
   while (true) {
-      print('Enter a word (or quit to exit):');
-      String? input = stdin.readLineSync();
+    print('Enter a word (or quit to exit):');
+    String? input = stdin.readLineSync();
 
-      if (input == 'quit') {
-        print('You typed $input. Goodbye.');
-        break;
-      }
+    if (input == 'quit') {
+      print('You typed $input. Goodbye.');
+      break;
+    }
 
-      print ('You typed: $input');
+    String url = 'https://api.dictionaryapi.dev/api/v2/entries/en/$input';
+    Uri myUri = Uri.parse(url);
+
+    var response = await http.get(myUri);
+
+    if (response.statusCode == 200) {
+      print('Success! Got data.');
+      print(response.body);
+    } else {
+      print('Something went wrong. Status: ${response.statusCode}');
+    }
+
+    print('You typed: $input');
   }
 }
