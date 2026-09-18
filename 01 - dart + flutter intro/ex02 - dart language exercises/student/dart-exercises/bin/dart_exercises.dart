@@ -53,8 +53,8 @@ void main(List<String> arguments) {
   // Main while Loop
   bool running = true;
   while (running) {
-    print('1. Add a Student');
-    print('2. Do thing B');
+    print('1. Add Student');
+    print('2. List Students');
     print('3. Quit');
 
     String? input = stdin.readLineSync();
@@ -87,11 +87,15 @@ void main(List<String> arguments) {
                     lastName != null &&
                     intIdNumber != null) {
                   print('Ready to create student...');
-                  Student newStudent = Student(firstName, lastName, intIdNumber);
+                  Student newStudent = Student(
+                    firstName,
+                    lastName,
+                    intIdNumber,
+                  );
                   roster.add(newStudent);
                   print('New student created');
                 } else {
-                  print ('Please enter a valid number.');
+                  print('Please enter a valid number.');
                 }
               } else {
                 print('Please enter a valid number.');
@@ -100,9 +104,21 @@ void main(List<String> arguments) {
               print('Roster is full');
             }
             break;
+          // Case 2: Displaying the Students
           case 2:
-            print('You picked two');
+            // Print the header lines
+            print('ID Last Name First Name');
+            print('-------------------');
+            // Loop over every student in roster
+            for (Student student in roster) {
+              print(
+                '${student.getIdNumber()}, ${student.getLastName()}, ${student.getFirstName()}',
+              );
+            }
+            // Print the total count at the end
+            print('Total Students: ${roster.length}');
             break;
+          // Case 3: Quitting the Program
           case 3:
             print('Exiting...');
             running = false;
