@@ -107,12 +107,12 @@ void main(List<String> arguments) {
           // Case 2: Displaying the Students
           case 2:
             // Print the header lines
-            print('ID Last Name First Name');
-            print('-------------------');
+            print('ID'.padRight(3) + 'Last Name'.padRight(10) + 'First Name');
+            print('--'.padRight(3) + '---------'.padRight(10) + '---------');
             // Loop over every student in roster
             for (Student student in roster) {
               print(
-                '${student.getIdNumber()}, ${student.getLastName()}, ${student.getFirstName()}',
+                '${student.getIdNumber()}'.padRight(3) + '${student.getLastName()}'.padRight(10) + '${student.getFirstName()}'
               );
             }
             // Print the total count at the end
