@@ -57,6 +57,7 @@ void main(List<String> arguments) {
     print('2. List Students');
     print('3. Quit');
 
+    // read input for menu
     String? input = stdin.readLineSync();
 
     if (input != null) {
@@ -85,7 +86,9 @@ void main(List<String> arguments) {
                 // Ensuring first name, last name and ID number are not null
                 if (firstName != null &&
                     lastName != null &&
-                    intIdNumber != null) {
+                    intIdNumber != null &&
+                    firstName.trim().isNotEmpty &&
+                    lastName.trim().isNotEmpty) {
                   print('Ready to create student...');
                   Student newStudent = Student(
                     firstName,
@@ -95,7 +98,7 @@ void main(List<String> arguments) {
                   roster.add(newStudent);
                   print('New student created');
                 } else {
-                  print('Please enter a valid number.');
+                  print('Please enter a valid credentials.');
                 }
               } else {
                 print('Please enter a valid number.');
@@ -112,7 +115,9 @@ void main(List<String> arguments) {
             // Loop over every student in roster
             for (Student student in roster) {
               print(
-                '${student.getIdNumber()}'.padRight(3) + '${student.getLastName()}'.padRight(10) + '${student.getFirstName()}'
+                '${student.getIdNumber()}'.padRight(3) +
+                    '${student.getLastName()}'.padRight(10) +
+                    '${student.getFirstName()}',
               );
             }
             // Print the total count at the end
@@ -123,6 +128,7 @@ void main(List<String> arguments) {
             print('Exiting...');
             running = false;
             break;
+          // Case 4: Weird input
           default:
             print('Unrecognized Input.');
         }
