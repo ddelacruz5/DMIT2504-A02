@@ -7,8 +7,8 @@
 import 'dart:io';
 
 void main(List<String> arguments) {
-int? intValue;
-int? intRange;
+  int? intValue;
+  int? intRange;
 
   // Get input from user
   print('Enter the number of values');
@@ -19,5 +19,13 @@ int? intRange;
   if (inputValue != null && inputRange != null) {
     intValue = int.tryParse(inputValue);
     intRange = int.tryParse(inputRange);
+    // storage
+    if (intValue != null && intRange != null) {
+      List<int> lotteryNumbers = List.filled(intValue, 0);
+    } else {
+      print('values are null.');
+    }
+  } else {
+    print('values are null.');
   }
 }
