@@ -5,6 +5,7 @@
 // Display the result
 
 import 'dart:io';
+import 'dart:math';
 
 void main(List<String> arguments) {
   int? intValue;
@@ -22,6 +23,21 @@ void main(List<String> arguments) {
     // storage
     if (intValue != null && intRange != null) {
       List<int> lotteryNumbers = List.filled(intValue, 0);
+      // Creating a Random Object
+      Random random = Random();
+      // Assigning into a list slot
+      for (int i = 0; i < intValue; i++) {
+        // Generate a random number
+        int candidate = random.nextInt(intRange) + 1;
+        // Check if number already exists somewhere in 'lotteryNumbers'
+        // If yes -> Generate a new number
+        while (lotteryNumbers.contains(candidate)) {
+          candidate = random.nextInt(intRange) + 1;
+        }
+        // If no -> move to next slot
+        lotteryNumbers[i] = candidate;
+      }
+      print(lotteryNumbers);
     } else {
       print('values are null.');
     }
