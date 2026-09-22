@@ -37,9 +37,9 @@ void main(List<String> arguments) {
         // If no -> move to next slot
         lotteryNumbers[i] = candidate;
       }
-      print(lotteryNumbers);
+      print(lotteryNumbers.join(" "));
     } else {
-      print('values are null.');
+      print('Please enter a valid number.');
     }
   } else {
     print('values are null.');
