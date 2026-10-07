@@ -48,19 +48,15 @@ class _RandomDogImageState extends State<RandomDogImage> {
 
   // refactor dog image fetching into its own function, so i can reuse it
   Future<void> fetchNewDog() async {
-    getRandomDogUrl().then(
-      // callback function: (returnThing) => { logic to fire }
-      (url) { 
-        // exit out if component isn't mounted.
-        // where is {mounted} coming from? mouse over / look at docs: https://api.flutter.dev/flutter/widgets/State-class.html
-        if (!mounted) return;
 
-        // all good? set initial state
-        setState(
-          () { dogImageUrl = url; }
-        );
-      }
-    );
+    setState(() { dogImageUrl = ''; });  // reset the dog URL state first
+
+    final url = await getRandomDogUrl(); // get new dog image URL
+
+    if (!mounted) return;                // bail out if component isn't mounted into element tree
+
+    setState(() { dogImageUrl = url; }); // overwrite dog image state
+
   }
 
   @override
@@ -71,17 +67,34 @@ class _RandomDogImageState extends State<RandomDogImage> {
 
   @override
   Widget build(BuildContext context) {
-    // ternary gang: conditionally return loading text OR dog image
-    return dogImageUrl.isEmpty
-      ? const Text("Loading dog...")
-      : Image.network(dogImageUrl);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        
+        // 1. we'll use a SizedBox to control the position of image + button,
+        // so that button doesn't jump around the UI while image is loading
+        SizedBox(
+          height: 300,
+          // ternary gang: conditionally return loading text OR dog image
+          child: dogImageUrl.isEmpty 
+            ? const Center(child: Text("Loading dog..."))
+            : Image.network(dogImageUrl),
+        ),
+
+        // 2. another fixed-height box for some spacing
+        const SizedBox(height: 16),
+
+        // 3. teh button
+        ElevatedButton(
+          onPressed: fetchNewDog, // note: this isn't a call() !
+                                  // it's just naming what function SHOULD fire.
+          child: const Text("fetch new dog (I hated my old one)"),
+        
+        ),
+
+      ]
+    );
 
   }
 
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image.network();
-//   }
-// }
