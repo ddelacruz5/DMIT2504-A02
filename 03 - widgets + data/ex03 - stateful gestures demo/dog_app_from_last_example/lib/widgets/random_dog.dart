@@ -56,26 +56,34 @@ class _RandomDogImageState extends State<RandomDogImage> {
           height: 300,
           // ternary gang: conditionally return loading text OR dog image
           child: GestureDetector(
+            // One thing I notice: I can spam-tap and the likes will only update when a new dog image arrives.
+            // Is this good? Bad? It's a decision! Consider whether you'd want to update for every tap, or just when a new dog arrives, and *why*.
             onTap: () { // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
               // print("got a tap");
-              setState( // ez
-                () { likes += 1; }
+              getRandomDogUrl().then( // anyFunc().then( (result) { stuffToRun } ); -> take the result of anyFunc (when it's ready), then run stuff with it
+                (url) {
+                  setState( // still ez
+                    () {
+                      dogImageUrl = url;
+                      likes      += 1;
+                    }
+                  );
+                }
               );
               // print('likes: $likes');
-              fetchNewDog();
             },
             onLongPress: () { // () {} is equivalent to () => {} in JS
               // print('got a long press');
-              setState(
-                () { dislikes +=1; }
-              );
-              fetchNewDog();
+              getRandomDogUrl().then((url) {
+                setState(() {
+                  dogImageUrl = url;
+                  dislikes      += 1;
+                });
+              });
             },
             child: dogImageUrl.isEmpty ? const Text("Loading dog...") : Image.network(dogImageUrl),
           ),
         ),
-          
-
 
         // 2. another fixed-height box for some spacing
         const SizedBox(height: 16),
