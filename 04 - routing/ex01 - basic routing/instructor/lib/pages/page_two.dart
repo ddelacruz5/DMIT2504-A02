@@ -16,7 +16,10 @@ class PageTwo extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () {
-              print("Page Two button pressed");
+              Navigator.of(context).pop();
+              // routes are a stack: first in, first out (hold back button on some browser tab for an example)
+              // if we just want to go back to the previous route, we just pop the most recent route off the top of the stack
+              // and we don't need to care about what path it was specifically.
             },
             child: const Text('Go back to Page One'),
           ),
