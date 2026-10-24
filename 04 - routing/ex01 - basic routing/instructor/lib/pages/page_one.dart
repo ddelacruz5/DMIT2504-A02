@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'page_two.dart';
-// imagine if this page routed to 99 other things -> 99 other imports
-// this is bad design! it's called tight coupling.
-// look at the first two images here: https://serverlessland.com/event-driven-architecture/tight-coupling-vs-loose-coupling
-// and imagine how much duplicated and unmaintainable code would exist with MORE components.
-// A would need built-in logic to talk to B, C, D, etc.; B would need specific logic for A, C, D, etc.
-// -> saner approach: "loose coupling", i.e. A just emits an event, a logic layer picks that up, and connects it to e.g. B
-//                    that way, A and B never need to know about each other, behave generically, etc.
+// this is objectively terrible/yucky: components should never know about each other.
+
+// imagine if we had to route between 10 different components!
+// each of them would need *their own* references & logic for referencing to EACH other one.
 
 
 class PageOne extends StatelessWidget {
@@ -24,15 +21,12 @@ class PageOne extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () {
-              /*
-                 going back is simple (.pop() and ur done);
-                 going somewhere specifically is a bit more complicated:
-                    {router}.push({someBoilerPlate} -> return PageToGoTo()
-              */
+              // routing is a stack: first in, first out.
+              // push something on top of the stack; pop something off of the top of the stack.
+              // the Navigator (routing engine) holds the stack.
               Navigator.of(context).push(
-                // I'm spacing this out for clarity, but you can compress it
                 MaterialPageRoute(
-                  builder:(context) => const PageTwo(),  // () {} to return callback logic, () => to return a value
+                  builder: (context) => const PageTwo()
                 )
               );
             },

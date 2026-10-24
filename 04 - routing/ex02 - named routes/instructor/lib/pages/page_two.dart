@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 
-// We'll build our pages as full pages for now (individual Scaffold per page) rather than
-// doing an outer skeleton page with inner content just to keep things simple.
+
 class PageTwo extends StatelessWidget {
 
   const PageTwo({super.key});
 
+  static const excuses = [
+    'my cat walked (and peed) all over my keyboard',
+    'the bus was late (yes i was on the bus)',
+    'i thought it was tomorrow',
+    'i thought it was yesterday',
+    'my code was working fine before class',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: <Widget>[
 
-          const Text("Page Two"),
-
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              // routes are a stack: first in, first out (hold back button on some browser tab for an example)
-              // if we just want to go back to the previous route, we just pop the most recent route off the top of the stack
-              // and we don't need to care about what path it was specifically.
-
-              // tl;dr -> Navigator holds the stack of routing history, push adds to the stack, pop removes from the stack
-            },
-            child: const Text('Go back to Page One'),
-          ),
+          for (final excuse in excuses)
+            Card(
+              child: ListTile(
+                title: Text(excuse),
+                onTap: () => Navigator.of(context).pop(excuse),
+              )
+            )
 
         ],
       ),

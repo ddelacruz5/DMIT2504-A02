@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'page_two.dart';
-// imagine if this page routed to 99 other things -> 99 other imports
-// this is bad design! it's called tight coupling.
-// look at the first two images here: https://serverlessland.com/event-driven-architecture/tight-coupling-vs-loose-coupling
-// and imagine how much duplicated and unmaintainable code would exist with MORE components.
-// A would need built-in logic to talk to B, C, D, etc.; B would need specific logic for A, C, D, etc.
-// -> saner approach: "loose coupling", i.e. A just emits an event, a logic layer picks that up, and connects it to e.g. B
-//                    that way, A and B never need to know about each other, behave generically, etc.
 
-
-class PageOne extends StatelessWidget {
+class PageOne extends StatefulWidget {
 
   const PageOne({super.key});
+
+  @override
+  State<PageOne> createState() => _PageOneState();
+
+}
+
+
+
+class _PageOneState extends State<PageOne> {
+
+  late String data = ''; // this is a stateful value
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +22,25 @@ class PageOne extends StatelessWidget {
       body: Column(
         children: <Widget>[
 
-          const Text("Page One"),
+          const Text("You have shown up to class with underwear on your head.\nPlease explain yourself."),
+
+          const SizedBox(height: 48),
 
           ElevatedButton(
-            onPressed: () {
-              /*
-                 going back is simple (.pop() and ur done);
-                 going somewhere specifically is a bit more complicated:
-                    {router}.push({someBoilerPlate} -> return PageToGoTo()
-              */
-              Navigator.of(context).push(
-                // I'm spacing this out for clarity, but you can compress it
-                MaterialPageRoute(
-                  builder:(context) => const PageTwo(),  // () {} to return callback logic, () => to return a value
-                )
-              );
+            onPressed: () async {
+              // General idea: I can return data from where I'm routing to, capture it here, have it ready when user comes back.
+              // An enormous amount of engineering/building for mobile involves making data/UI ready ahead of time in order to make the experience
+              // feel as instant/snappy as possible.
+              final excuse = await Navigator.of(context).pushNamed('/page-two') as String?; // the data I'm expecting to be returned back is a string
+
+              setState(() { 
+                data = excuse ?? "No excuse given; bold strategy."; 
+              });
             },
-            child: const Text('Go to Page Two'),
+            child: const Text('Select an excuse.'),
           ),
+
+          Text(data.isEmpty ? "Awaiting excuse..." : data),
 
         ],
       ),
