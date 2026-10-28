@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+
+import 'package:path_provider/path_provider.dart';
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
@@ -88,25 +91,14 @@ class LikeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 16.0,
-        left: 16.0,
-      ),
+      padding: const EdgeInsets.only(top: 16.0, left: 16.0),
       child: Row(
         children: <Widget>[
           Text(
             like ? "Likes: " : "Dislikes: ",
-            style: const TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
-          Text(
-            '$number',
-            style: const TextStyle(
-              fontSize: 24.0,
-            ),
-          ),
+          Text('$number', style: const TextStyle(fontSize: 24.0)),
         ],
       ),
     );
